@@ -2,37 +2,37 @@ part of dash_chat_2;
 
 /// {@category Customization}
 class MessageOptions {
-  const MessageOptions({
-    this.showCurrentUserAvatar = false,
-    this.showOtherUsersAvatar = true,
-    this.showOtherUsersName = true,
-    this.userNameBuilder,
-    this.avatarBuilder,
-    this.onPressAvatar,
-    this.onLongPressAvatar,
-    this.onLongPressMessage,
-    this.onPressMessage,
-    this.onPressMention,
-    this.currentUserContainerColor,
-    this.currentUserTextColor,
-    this.containerColor,
-    this.textColor,
-    this.messagePadding,
-    this.maxWidth,
-    this.messageDecorationBuilder,
-    this.top,
-    this.bottom,
-    this.messageRowBuilder,
-    this.messageTextBuilder,
-    this.parsePatterns,
-    this.textBeforeMedia = true,
-    this.onTapMedia,
-    this.showTime = false,
-    this.timeFormat,
-    this.messageTimeBuilder,
-    this.messageMediaBuilder,
-    this.selectedContainerColor,
-  });
+  const MessageOptions(
+      {this.showCurrentUserAvatar = false,
+      this.showOtherUsersAvatar = true,
+      this.showOtherUsersName = true,
+      this.userNameBuilder,
+      this.avatarBuilder,
+      this.onPressAvatar,
+      this.onLongPressAvatar,
+      this.onLongPressMessage,
+      this.onPressMessage,
+      this.onPressMention,
+      this.currentUserContainerColor,
+      this.currentUserTextColor,
+      this.containerColor,
+      this.textColor,
+      this.messagePadding,
+      this.maxWidth,
+      this.messageDecorationBuilder,
+      this.top,
+      this.bottom,
+      this.messageRowBuilder,
+      this.messageTextBuilder,
+      this.parsePatterns,
+      this.textBeforeMedia = true,
+      this.onTapMedia,
+      this.showTime = false,
+      this.timeFormat,
+      this.messageTimeBuilder,
+      this.messageMediaBuilder,
+      this.selectedContainerColor,
+      this.onTapPlay});
 
   /// Format of the time if [showTime] is true
   /// Default to: DateFormat('HH:mm')
@@ -152,4 +152,6 @@ class MessageOptions {
   /// Function to call when the user clicks on a media
   /// Will not work with the default video player
   final void Function(ChatMedia media)? onTapMedia;
+
+  final void Function(ChatMedia media)? onTapPlay;
 }

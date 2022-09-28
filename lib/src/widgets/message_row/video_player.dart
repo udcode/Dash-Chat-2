@@ -6,7 +6,11 @@ class VideoPlayer extends StatefulWidget {
     required this.url,
     this.aspectRatio = 1,
     this.canPlay = true,
+    this.onPlay,
   });
+
+  /// On press play
+  final VoidCallback? onPlay;
 
   /// Link of the video
   final String url;
@@ -62,6 +66,10 @@ class _VideoPlayerState extends State<VideoPlayer> {
                 iconSize: _controller!.value.isPlaying ? 24 : 60,
                 onPressed: widget.canPlay
                     ? () {
+                        if (widget.onPlay != null) {
+                          widget.onPlay!();
+                          return;
+                        }
                         setState(() {
                           _controller!.value.isPlaying
                               ? _controller!.pause()
