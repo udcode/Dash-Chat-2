@@ -37,7 +37,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
   }
 
   Future<void> _initializeVideoPlayerFuture() async {
-    if (_controller == null) {
+    if (_controller == null && _controller?.value.isPlaying == false) {
       _controller = vp.VideoPlayerController.network(widget.url);
       await _controller!.initialize();
     }
