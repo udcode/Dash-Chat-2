@@ -78,71 +78,75 @@ class MessageRow extends StatelessWidget {
             ),
           if (!messageOptions.showOtherUsersAvatar)
             const Padding(padding: EdgeInsets.only(left: 10)),
-          GestureDetector(
-            onLongPress: messageOptions.onLongPressMessage != null
-                ? () => messageOptions.onLongPressMessage!(message)
-                : null,
-            onTap: messageOptions.onPressMessage != null
-                ? () => messageOptions.onPressMessage!(message)
-                : null,
-            child: ConstrainedBox(
-              constraints: BoxConstraints(
-                maxWidth: messageOptions.maxWidth ??
-                    MediaQuery.of(context).size.width * 0.7,
-              ),
-              child: Column(
-                crossAxisAlignment: isOwnMessage
-                    ? CrossAxisAlignment.end
-                    : CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  if (messageOptions.top != null)
-                    messageOptions.top!(message, previousMessage, nextMessage),
-                  if (!isOwnMessage &&
-                      messageOptions.showOtherUsersName &&
-                      (!isPreviousSameAuthor || isAfterDateSeparator))
-                    messageOptions.userNameBuilder != null
-                        ? messageOptions.userNameBuilder!(message.user)
-                        : DefaultUserName(user: message.user),
-                  if (message.medias != null &&
-                      message.medias!.isNotEmpty &&
-                      messageOptions.textBeforeMedia)
-                    messageOptions.messageMediaBuilder != null
-                        ? messageOptions.messageMediaBuilder!(
-                            message, previousMessage, nextMessage)
-                        : MediaContainer(
-                            message: message,
-                            isOwnMessage: isOwnMessage,
-                            messageOptions: messageOptions,
-                          ),
-                  if (message.text.isNotEmpty)
-                    TextContainer(
-                      messageOptions: messageOptions,
-                      message: message,
-                      previousMessage: previousMessage,
-                      nextMessage: nextMessage,
-                      isOwnMessage: isOwnMessage,
-                      isNextSameAuthor: isNextSameAuthor,
-                      isPreviousSameAuthor: isPreviousSameAuthor,
-                      isAfterDateSeparator: isAfterDateSeparator,
-                      isBeforeDateSeparator: isBeforeDateSeparator,
-                      messageTextBuilder: messageOptions.messageTextBuilder,
-                    ),
-                  if (message.medias != null &&
-                      message.medias!.isNotEmpty &&
-                      !messageOptions.textBeforeMedia)
-                    messageOptions.messageMediaBuilder != null
-                        ? messageOptions.messageMediaBuilder!(
-                            message, previousMessage, nextMessage)
-                        : MediaContainer(
-                            message: message,
-                            isOwnMessage: isOwnMessage,
-                            messageOptions: messageOptions,
-                          ),
-                  if (messageOptions.bottom != null)
-                    messageOptions.bottom!(
-                        message, previousMessage, nextMessage),
-                ],
+          Container(
+            color: messageOptions.selectedContainerColor,
+            child: GestureDetector(
+              onLongPress: messageOptions.onLongPressMessage != null
+                  ? () => messageOptions.onLongPressMessage!(message)
+                  : null,
+              onTap: messageOptions.onPressMessage != null
+                  ? () => messageOptions.onPressMessage!(message)
+                  : null,
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxWidth: messageOptions.maxWidth ??
+                      MediaQuery.of(context).size.width * 0.7,
+                ),
+                child: Column(
+                  crossAxisAlignment: isOwnMessage
+                      ? CrossAxisAlignment.end
+                      : CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    if (messageOptions.top != null)
+                      messageOptions.top!(
+                          message, previousMessage, nextMessage),
+                    if (!isOwnMessage &&
+                        messageOptions.showOtherUsersName &&
+                        (!isPreviousSameAuthor || isAfterDateSeparator))
+                      messageOptions.userNameBuilder != null
+                          ? messageOptions.userNameBuilder!(message.user)
+                          : DefaultUserName(user: message.user),
+                    if (message.medias != null &&
+                        message.medias!.isNotEmpty &&
+                        messageOptions.textBeforeMedia)
+                      messageOptions.messageMediaBuilder != null
+                          ? messageOptions.messageMediaBuilder!(
+                              message, previousMessage, nextMessage)
+                          : MediaContainer(
+                              message: message,
+                              isOwnMessage: isOwnMessage,
+                              messageOptions: messageOptions,
+                            ),
+                    if (message.text.isNotEmpty)
+                      TextContainer(
+                        messageOptions: messageOptions,
+                        message: message,
+                        previousMessage: previousMessage,
+                        nextMessage: nextMessage,
+                        isOwnMessage: isOwnMessage,
+                        isNextSameAuthor: isNextSameAuthor,
+                        isPreviousSameAuthor: isPreviousSameAuthor,
+                        isAfterDateSeparator: isAfterDateSeparator,
+                        isBeforeDateSeparator: isBeforeDateSeparator,
+                        messageTextBuilder: messageOptions.messageTextBuilder,
+                      ),
+                    if (message.medias != null &&
+                        message.medias!.isNotEmpty &&
+                        !messageOptions.textBeforeMedia)
+                      messageOptions.messageMediaBuilder != null
+                          ? messageOptions.messageMediaBuilder!(
+                              message, previousMessage, nextMessage)
+                          : MediaContainer(
+                              message: message,
+                              isOwnMessage: isOwnMessage,
+                              messageOptions: messageOptions,
+                            ),
+                    if (messageOptions.bottom != null)
+                      messageOptions.bottom!(
+                          message, previousMessage, nextMessage),
+                  ],
+                ),
               ),
             ),
           ),

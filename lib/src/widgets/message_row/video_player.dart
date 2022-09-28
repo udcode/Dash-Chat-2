@@ -22,55 +22,66 @@ class VideoPlayer extends StatefulWidget {
 }
 
 class _VideoPlayerState extends State<VideoPlayer> {
-  late vp.VideoPlayerController _controller;
+  vp.VideoPlayerController? _controller;
 
   @override
   void initState() {
     super.initState();
-    _controller = vp.VideoPlayerController.network(widget.url)
-      ..initialize().then((_) {
-        // Ensure the first frame is shown after the video is initialized,
-        // even before the play button has been pressed.
-        setState(() {});
-      });
   }
 
   @override
   void dispose() {
     super.dispose();
-    _controller.dispose();
+    _controller?.dispose();
+  }
+
+  Future<void> _initializeVideoPlayerFuture() async {
+    if (_controller == null) {
+      _controller = vp.VideoPlayerController.network(widget.url);
+      await _controller!.initialize();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return _controller.value.isInitialized
-        ? Stack(
-            alignment: _controller.value.isPlaying
-                ? AlignmentDirectional.bottomStart
-                : AlignmentDirectional.center,
-            children: <Widget>[
-              AspectRatio(
-                aspectRatio: _controller.value.aspectRatio,
-                child: vp.VideoPlayer(_controller),
-              ),
-              IconButton(
-                iconSize: _controller.value.isPlaying ? 24 : 60,
-                onPressed: widget.canPlay
-                    ? () {
-                        setState(() {
-                          _controller.value.isPlaying
-                              ? _controller.pause()
-                              : _controller.play();
-                        });
-                      }
-                    : null,
-                icon: Icon(
-                  _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-                  color: Colors.white,
-                  // size: 60,
-                ),
-              ),
-            ],
+    return _controller?.value.isInitialized == true
+        ? FutureBuilder<void>(
+            future: _initializeVideoPlayerFuture(),
+            builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                return Stack(
+                  alignment: _controller!.value.isPlaying
+                      ? AlignmentDirectional.bottomStart
+                      : AlignmentDirectional.center,
+                  children: <Widget>[
+                    AspectRatio(
+                      aspectRatio: _controller!.value.aspectRatio,
+                      child: vp.VideoPlayer(_controller!),
+                    ),
+                    IconButton(
+                      iconSize: _controller!.value.isPlaying ? 24 : 60,
+                      onPressed: widget.canPlay
+                          ? () {
+                              setState(() {
+                                _controller!.value.isPlaying
+                                    ? _controller!.pause()
+                                    : _controller!.play();
+                              });
+                            }
+                          : null,
+                      icon: Icon(
+                        _controller!.value.isPlaying
+                            ? Icons.pause
+                            : Icons.play_arrow,
+                        color: Colors.white,
+                        // size: 60,
+                      ),
+                    ),
+                  ],
+                );
+              }
+              return Container();
+            },
           )
         : Container();
   }

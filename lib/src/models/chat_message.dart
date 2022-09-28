@@ -12,6 +12,7 @@ class ChatMessage {
     this.mentions,
     this.status = MessageStatus.none,
     this.replyTo,
+    this.isSelected = false,
   });
 
   /// Create a ChatMessage instance from json data
@@ -74,6 +75,9 @@ class ChatMessage {
 
   /// If the message is a reply of another one TODO:
   ChatMessage? replyTo;
+
+  /// If this message is selected
+  bool isSelected;
 
   /// Convert a ChatMessage into a json
   Map<String, dynamic> toJson() {

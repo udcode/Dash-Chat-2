@@ -31,6 +31,7 @@ class MessageOptions {
     this.timeFormat,
     this.messageTimeBuilder,
     this.messageMediaBuilder,
+    this.selectedContainerColor,
   });
 
   /// Format of the time if [showTime] is true
@@ -86,6 +87,9 @@ class MessageOptions {
   /// Color of the other users chat bubbles
   /// Default to Colors.grey[100]
   final Color? containerColor;
+
+  /// Color of the selected message container
+  final Color? selectedContainerColor;
 
   /// Color of the other users text in chat bubbles
   /// Default to black
