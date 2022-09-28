@@ -31,7 +31,14 @@ class MediaContainer extends StatelessWidget {
         return Stack(
           alignment: AlignmentDirectional.bottomEnd,
           children: <Widget>[
-            VideoPlayer(url: media.url),
+            VideoPlayer(
+              url: media.url,
+              onPlay: messageOptions.onTapPlay != null
+                  ? () {
+                      messageOptions.onTapPlay?.call(media);
+                    }
+                  : null,
+            ),
             if (media.isUploading) loading
           ],
         );
