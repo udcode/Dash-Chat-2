@@ -30,6 +30,12 @@ class _VideoPlayerState extends State<VideoPlayer> {
 
   @override
   void initState() {
+    _controller = vp.VideoPlayerController.network(widget.url);
+
+    _controller!.addListener(() {
+      setState(() {});
+    });
+    _controller!.initialize();
     super.initState();
   }
 
@@ -41,53 +47,53 @@ class _VideoPlayerState extends State<VideoPlayer> {
   }
 
   Future<void> _initializeVideoPlayerFuture() async {
-    if (_controller == null) {
-      _controller = vp.VideoPlayerController.network(widget.url);
-      await _controller!.initialize();
-    }
+    // if (_controller == null) {
+    //   _controller = vp.VideoPlayerController.network(widget.url);
+    //   await _controller!.initialize();
+    // }
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<void>(
-      future: _initializeVideoPlayerFuture(),
-      builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          return Stack(
-            alignment: _controller!.value.isPlaying
-                ? AlignmentDirectional.bottomStart
-                : AlignmentDirectional.center,
-            children: <Widget>[
-              AspectRatio(
-                aspectRatio: _controller!.value.aspectRatio,
-                child: vp.VideoPlayer(_controller!),
-              ),
-              IconButton(
-                iconSize: _controller!.value.isPlaying ? 24 : 60,
-                onPressed: widget.canPlay
-                    ? () {
-                        if (widget.onPlay != null) {
-                          widget.onPlay!();
-                          return;
-                        }
-                        setState(() {
-                          _controller!.value.isPlaying
-                              ? _controller!.pause()
-                              : _controller!.play();
-                        });
-                      }
-                    : null,
-                icon: Icon(
-                  _controller!.value.isPlaying ? Icons.pause : Icons.play_arrow,
-                  color: Colors.white,
-                  // size: 60,
-                ),
-              ),
-            ],
-          );
-        }
-        return Container();
-      },
+    // return FutureBuilder<void>(
+    //   future: _initializeVideoPlayerFuture(),
+    //   builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+    //     if (snapshot.connectionState == ConnectionState.done) {
+    return Stack(
+      alignment: _controller!.value.isPlaying
+          ? AlignmentDirectional.bottomStart
+          : AlignmentDirectional.center,
+      children: <Widget>[
+        AspectRatio(
+          aspectRatio: _controller!.value.aspectRatio,
+          child: vp.VideoPlayer(_controller!),
+        ),
+        IconButton(
+          iconSize: _controller!.value.isPlaying ? 24 : 60,
+          onPressed: widget.canPlay
+              ? () {
+                  if (widget.onPlay != null) {
+                    widget.onPlay!();
+                    return;
+                  }
+                  setState(() {
+                    _controller!.value.isPlaying
+                        ? _controller!.pause()
+                        : _controller!.play();
+                  });
+                }
+              : null,
+          icon: Icon(
+            _controller!.value.isPlaying ? Icons.pause : Icons.play_arrow,
+            color: Colors.white,
+            // size: 60,
+          ),
+        ),
+      ],
     );
+    //   }
+    //   return Container();
+    // },
+    // );
   }
 }
