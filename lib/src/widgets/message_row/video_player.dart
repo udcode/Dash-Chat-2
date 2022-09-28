@@ -44,45 +44,41 @@ class _VideoPlayerState extends State<VideoPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    return _controller?.value.isInitialized == true
-        ? FutureBuilder<void>(
-            future: _initializeVideoPlayerFuture(),
-            builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                return Stack(
-                  alignment: _controller!.value.isPlaying
-                      ? AlignmentDirectional.bottomStart
-                      : AlignmentDirectional.center,
-                  children: <Widget>[
-                    AspectRatio(
-                      aspectRatio: _controller!.value.aspectRatio,
-                      child: vp.VideoPlayer(_controller!),
-                    ),
-                    IconButton(
-                      iconSize: _controller!.value.isPlaying ? 24 : 60,
-                      onPressed: widget.canPlay
-                          ? () {
-                              setState(() {
-                                _controller!.value.isPlaying
-                                    ? _controller!.pause()
-                                    : _controller!.play();
-                              });
-                            }
-                          : null,
-                      icon: Icon(
-                        _controller!.value.isPlaying
-                            ? Icons.pause
-                            : Icons.play_arrow,
-                        color: Colors.white,
-                        // size: 60,
-                      ),
-                    ),
-                  ],
-                );
-              }
-              return Container();
-            },
-          )
-        : Container();
+    return FutureBuilder<void>(
+      future: _initializeVideoPlayerFuture(),
+      builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return Stack(
+            alignment: _controller!.value.isPlaying
+                ? AlignmentDirectional.bottomStart
+                : AlignmentDirectional.center,
+            children: <Widget>[
+              AspectRatio(
+                aspectRatio: _controller!.value.aspectRatio,
+                child: vp.VideoPlayer(_controller!),
+              ),
+              IconButton(
+                iconSize: _controller!.value.isPlaying ? 24 : 60,
+                onPressed: widget.canPlay
+                    ? () {
+                        setState(() {
+                          _controller!.value.isPlaying
+                              ? _controller!.pause()
+                              : _controller!.play();
+                        });
+                      }
+                    : null,
+                icon: Icon(
+                  _controller!.value.isPlaying ? Icons.pause : Icons.play_arrow,
+                  color: Colors.white,
+                  // size: 60,
+                ),
+              ),
+            ],
+          );
+        }
+        return Container();
+      },
+    );
   }
 }
