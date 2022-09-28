@@ -26,7 +26,7 @@ class VideoPlayer extends StatefulWidget {
 }
 
 class _VideoPlayerState extends State<VideoPlayer> {
-  late final vp.VideoPlayerController? _controller;
+  vp.VideoPlayerController? _controller;
 
   @override
   void initState() {
@@ -41,7 +41,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
   }
 
   Future<void> _initializeVideoPlayerFuture() async {
-    if (_controller == null || _controller?.value.isInitialized == false) {
+    if (_controller == null) {
       _controller = vp.VideoPlayerController.network(widget.url);
       await _controller!.initialize();
     }
