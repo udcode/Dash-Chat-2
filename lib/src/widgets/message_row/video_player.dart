@@ -50,6 +50,8 @@ class _VideoPlayerState extends State<VideoPlayer> {
   void dispose() {
     super.dispose();
     _controller?.dispose();
+    _chewieController?.dispose();
+    _chewieController = null;
     _controller = null;
   }
 
