@@ -33,6 +33,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
   void dispose() {
     super.dispose();
     _controller?.dispose();
+    _controller = null;
   }
 
   Future<void> _initializeVideoPlayerFuture() async {

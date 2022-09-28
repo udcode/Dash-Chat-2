@@ -79,7 +79,9 @@ class MessageRow extends StatelessWidget {
           if (!messageOptions.showOtherUsersAvatar)
             const Padding(padding: EdgeInsets.only(left: 10)),
           Container(
-            color: messageOptions.selectedContainerColor,
+            color: message.isSelected
+                ? messageOptions.selectedContainerColor
+                : null,
             child: GestureDetector(
               onLongPress: messageOptions.onLongPressMessage != null
                   ? () => messageOptions.onLongPressMessage!(message)
